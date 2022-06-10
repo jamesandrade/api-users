@@ -1,11 +1,15 @@
+import bcrypt
+
 from src.server.database.Database import User
 
 class AddUserService():
     def execute(self, data):
+        passHash = bcrypt.hashpw(data["password"].encode("utf-8"), bcrypt.gensalt())
+
         newUser = User(
             name=data["name"],
             email=data["email"],
-            password=data["password"],
+            password= passHash,
             avatar=data["avatar"]
         )
         try:
